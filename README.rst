@@ -28,18 +28,22 @@ Instructions
 
   ``cp Android.mk $NDK_DIR/sources/python/3.6/Android.mk``
 
-5) Download the Python 3.6.3 source to some path ``$PYTHON_DIR``.
+5) Download the Python 3.6 source to some path ``$PYTHON_DIR``.
 
-6) Patch the Python 3.6.3 source with:
+6) Patch the Python 3.6 source with:
 
-  ``patch -p1 patch_python3.6.patch``
+  ``patch -p1 < patch_python3.6.patch``
+
+7) Fix missing/renamed README with:
+
+  ``ln -s $PYTHON_DIR/Lib/site-packages/README.txt $PYTHON_DIR/Lib/site-packages/README``
 
 The changes made are very minor, but hacky; an improvement for the future will be to fix the CrystaX build, or Python itself, to not need them.
 
-7) Add `-DXML_POOR_ENTROPY` to the `pyexpat` `CFLAGS` in ``$NDK_DIR/build/tools/build-target-python.sh``.
+8) Add `-DXML_POOR_ENTROPY` to the `pyexpat` `CFLAGS` in ``$NDK_DIR/build/tools/build-target-python.sh``.
 
-7) Run the ``build-target-python.sh`` script:
+9) Run the ``build-target-python.sh`` script:
 
-   ``$NDK_DIR/build/tools/build-target-python.sh --ndk_dir=$NDK_DIR --abis=armeabi-v7a -j5 --verbose $PYTHON_DIR``
+   ``$NDK_DIR/build/tools/build-target-python.sh --ndk_dir=$NDK_DIR --abis=armeabi,armeabi-v7a,arm64-v8a,x86,x86_64,mips,mips64 --verbose $PYTHON_DIR``
 
-This should build Python for the target architecture and copy it into place so that it can be used like any other.
+This should build Python for the target architectures and copy it into place so that it can be used like any other.
