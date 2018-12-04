@@ -70,7 +70,7 @@ if [[ -e $2/python-script.patch ]]; then
   cd ${ROOT}
 fi
 
-$1/build/tools/build-target-python.sh --ndk_dir=$(pwd)/$1 --abis=armeabi,armeabi-v7a,arm64-v8a,x86,x86_64,mips,mips64 --verbose $(pwd)/cpython
+$1/build/tools/build-target-python.sh --ndk_dir=$(pwd)/$1 --abis=armeabi,armeabi-v7a,arm64-v8a,x86,x86_64,mips,mips64 $(pwd)/cpython
 
 rm -rf cpython
 
