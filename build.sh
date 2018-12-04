@@ -7,6 +7,14 @@ ROOT=$(pwd)
 USAGE='USAGE:\nbuild.sh <NDK Dir> <Patch Dir> <C File Suffix / Python Major.Minor> <CPython Branch>\n\nExample:\n  Python 3.7:\n    build.sh ./crystax-ndk python3.7 3.7 v3.7.1\n  Python 3.6:\n    build.sh ./crystax-ndk python3.6 3.6 v3.6.7'
 SHOW_USAGE=0
 
+realpath() {
+  if [[ $1 == /* ]]; then
+    echo $1
+  else
+    echo $(pwd)/$1
+  fi
+}
+
 NDK_PATH=$(realpath $1)
 PATCH_DIR=$(realpath $2)
 C_SUFFIX=$(realpath $3)
