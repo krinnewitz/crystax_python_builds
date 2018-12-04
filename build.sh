@@ -6,6 +6,7 @@ ROOT=$(pwd)
 
 USAGE='USAGE:\nbuild.sh <NDK Dir> <Patch Dir> <C File Suffix / Python Major.Minor> <CPython Branch>\n\nExample:\n  Python 3.7:\n    build.sh ./crystax-ndk python3.7 3.7 v3.7.1\n  Python 3.6:\n    build.sh ./crystax-ndk python3.6 3.6 v3.6.7'
 SHOW_USAGE=0
+
 if [[ ! -e $1/build/tools/build-target-python.sh ]]; then
   SHOW_USAGE=1
   echo 'ERROR: Invalid NDK Dir'
@@ -70,7 +71,7 @@ if [[ -e $2/python-script.patch ]]; then
   cd ${ROOT}
 fi
 
-$1/build/tools/build-target-python.sh --ndk_dir=$(pwd)/$1 --abis=armeabi,armeabi-v7a,arm64-v8a,x86,x86_64,mips,mips64 --verbose $(pwd)/cpython | awk '^[ || ^##'
+$1/build/tools/build-target-python.sh --ndk_dir=$(pwd)/$1 --abis=armeabi,armeabi-v7a,arm64-v8a,x86,x86_64,mips,mips64 --verbose $(pwd)/cpython | awk '/^[|^##/'
 
 rm -rf cpython
 
