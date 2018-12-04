@@ -14,6 +14,6 @@ directly into place.
 Instructions
 ============
 
-1) Run ```./build.sh```
+1) Run ``./build.sh``
 
 This should build Python for the target architectures and copy it into place so that it can be used like any other.
