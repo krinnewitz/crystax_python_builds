@@ -6,5 +6,5 @@ if [[ -d crystax-ndk ]]; then
 fi
 curl -L -o crystax-ndk.tar.xz https://www.crystax.net/download/crystax-ndk-10.3.2-linux-x86_64.tar.xz
 mkdir crystax-ndk
-tar xvfJ crystax-ndk.tar.xz --strip-components=1 -C crystax-ndk
+tar xfJ crystax-ndk.tar.xz --strip-components=1 -C crystax-ndk
 rm -rf crystax-ndk.tar.xz
