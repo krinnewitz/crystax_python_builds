@@ -1,0 +1,20 @@
+--- crystax-ndk/build/tools/build-target-python.sh	2018-12-02 11:25:57.283782392 -0500
++++ crystax-ndk/build/tools/build-target-python.sh	2018-11-28 20:19:02.163015000 -0500
+@@ -269,7 +269,7 @@
+             CFLAGS="$CFLAGS -mthumb"
+     esac
+ 
+-    local CFLAGS="$CFLAGS --sysroot=$NDK_DIR/platforms/android-$APILEVEL/arch-$ARCH"
++    local CFLAGS="$CFLAGS --sysroot=$NDK_DIR/platforms/android-$APILEVEL/arch-$ARCH -D__ANDROID_API__=9"
+ 
+     local LDFLAGS=""
+     if [ "$ABI" = "armeabi-v7a-hard" ]; then
+@@ -688,7 +688,7 @@
+         echo 'LOCAL_PATH := $(call my-dir)'
+         echo 'include $(CLEAR_VARS)'
+         echo 'LOCAL_MODULE := pyexpat'
+-        echo 'LOCAL_CFLAGS := -DHAVE_EXPAT_CONFIG_H -DXML_STATIC'
++        echo 'LOCAL_CFLAGS := -DXML_POOR_ENTROPY -DHAVE_EXPAT_CONFIG_H -DXML_STATIC'
+         echo "MY_PYTHON_SRC_ROOT := $PYTHON_SRCDIR"
+         echo "LOCAL_C_INCLUDES := \$(MY_PYTHON_SRC_ROOT)/Modules/expat"
+         echo 'LOCAL_SRC_FILES := \'

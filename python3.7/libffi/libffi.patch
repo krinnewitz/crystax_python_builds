@@ -1,0 +1,46 @@
+diff -u libffi/configure.ac libffi/configure.ac
+--- libffi/configure.ac	2014-05-19 09:41:32.000000000 -0400
++++ libffi/configure.ac	2018-12-01 07:53:36.000000000 -0500
+@@ -144,6 +147,9 @@
+ 	  AM_LTLDFLAGS='-no-undefined -bindir "$(bindir)"';
+ 	fi
+ 	;;
++  i*86-*-nto-qnx*) 
++        TARGET=X86; TARGETDIR=x86
++        ;;
+   i?86-*-darwin*)
+ 	TARGET=X86_DARWIN; TARGETDIR=x86
+ 	;;
+@@ -218,12 +224,12 @@
+ 	;;
+ 
+   mips-sgi-irix5.* | mips-sgi-irix6.* | mips*-*-rtems*)
+-	TARGET=MIPS; TARGETDIR=mips
++	TARGET=MIPS_IRIX; TARGETDIR=mips
+ 	;;
+   mips*-*linux* | mips*-*-openbsd*)
+ 	# Support 128-bit long double for NewABI.
+ 	HAVE_LONG_DOUBLE='defined(__mips64)'
+-	TARGET=MIPS; TARGETDIR=mips
++	TARGET=MIPS_LINUX; TARGETDIR=mips
+ 	;;
+ 
+   nios2*-linux*)
+@@ -293,7 +299,7 @@
+   AC_MSG_ERROR(["libffi has not been ported to $host."])
+ fi
+ 
+-AM_CONDITIONAL(MIPS, test x$TARGET = xMIPS)
++AM_CONDITIONAL(MIPS,[expr x$TARGET : 'xMIPS' > /dev/null])
+ AM_CONDITIONAL(BFIN, test x$TARGET = xBFIN)
+ AM_CONDITIONAL(SPARC, test x$TARGET = xSPARC)
+ AM_CONDITIONAL(X86, test x$TARGET = xX86)
+@@ -617,4 +623,8 @@
+ 
+ AC_CONFIG_FILES(include/Makefile include/ffi.h Makefile testsuite/Makefile man/Makefile libffi.pc)
+ 
++AC_CONFIG_LINKS(include/ffi_common.h:include/ffi_common.h)
++
++AC_CONFIG_FILES(fficonfig.py)
++
+ AC_OUTPUT
