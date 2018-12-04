@@ -90,6 +90,6 @@ rm -rf cpython
 
 if [[ -e ${PATCH_DIR}/python-script.patch ]]; then
   cd ${NDK_PATH}
-  patch -p1 -R < ${ROOT}/${PATCH_DIR}/python-script.patch
+  patch -p1 -R < ${PATCH_DIR}/python-script.patch
   cd ${ROOT}
 fi
