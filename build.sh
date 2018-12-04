@@ -17,8 +17,8 @@ realpath() {
 
 NDK_PATH=$(realpath $1)
 PATCH_DIR=$(realpath $2)
-C_SUFFIX=$(realpath $3)
-CPYTHON_BRANCH=$(realpath $4)
+C_SUFFIX=$3
+CPYTHON_BRANCH=$4
 
 if [[ ! -e ${NDK_PATH}/build/tools/build-target-python.sh ]]; then
   SHOW_USAGE=1
