@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: buildpack-deps:bionic
+    steps:
+      - checkout
+      - run:
+          name: Install CrystaX NDK
+          command: .circleci/install-crystax.sh
+      - run:
+          name: Build Python 3.7
+          command: ./build.sh ./crystax-ndk python3.7
+      - run:
+          name: Build Python 3.6
+          command: ./build.sh ./crystax-ndk python3.6
+      - run:
+          name: Build Python 3.5
+          command: ./build.sh ./crystax-ndk python3.5
+      - run:
+          name: Build Python 3.4
+          command: ./build.sh ./crystax-ndk python3.4
+      - run:
+          name: Build Python 2.7
+          command: ./build.sh ./crystax-ndk python2.7
+      - run:
+          name: Deploy To Github Pages
+          command: .circleci/deploy.sh

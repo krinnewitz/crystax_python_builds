@@ -1,0 +1,42 @@
+diff --git a/Modules/getpath.c b/Modules/getpath.c
+index 0f91643..7e65cc7 100644
+--- a/Modules/getpath.c
++++ b/Modules/getpath.c
+@@ -101,8 +101,35 @@
+ #endif
+ 
+ 
+-#if !defined(PREFIX) || !defined(EXEC_PREFIX) || !defined(VERSION) || !defined(VPATH)
+-#error "PREFIX, EXEC_PREFIX, VERSION, and VPATH must be constant defined"
++   /* These variables were set this way in old versions of Python, but
++      changed somewhere between 3.5.0 and 3.5.3. Here we just force
++      the old way again. A better solution would be to work out where
++      they should be defined, and make the CrystaX build scripts do
++      so. */
++
++/* #if !defined(PREFIX) || !defined(EXEC_PREFIX) || !defined(VERSION) || !defined(VPATH) */
++/* #error "PREFIX, EXEC_PREFIX, VERSION, and VPATH must be constant defined" */
++/* #endif */
++
++#ifndef VERSION
++#define VERSION "2.1"
++#endif
++
++#ifndef VPATH
++#define VPATH "."
++#endif
++
++#ifndef PREFIX
++#  define PREFIX "/usr/local"
++#endif
++
++#ifndef EXEC_PREFIX
++#define EXEC_PREFIX PREFIX
++#endif
++
++#ifndef PYTHONPATH
++#define PYTHONPATH PREFIX "/lib/python" VERSION ":" \
++              EXEC_PREFIX "/lib/python" VERSION "/lib-dynload"
+ #endif
+ 
+ #ifndef LANDMARK
