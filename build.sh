@@ -4,7 +4,7 @@ set -e
 
 ROOT=$(pwd)
 
-USAGE='USAGE:\nbuild.sh <NDK Dir> <Patch Dir> <C File Suffix / Python Major.Minor> <CPython Branch>\n\nExample:\n  Python 3.7:\n    build.sh ./crystax-ndk python3.7 3.7 v3.7.1\n  Python 3.6:\n    build.sh ./crystax-ndk python3.6 3.6 v3.6.7'
+USAGE='USAGE:\n  build.sh <NDK Dir> <Patch Dir> <C File Suffix / Python Major.Minor> <CPython Branch> [Custom CPython Git]\n  build.sh <NDK Dir> <Patch Dir>\n\nExample:\n  Python 3.7:\n    build.sh ./crystax-ndk python3.7\n  Python 3.6:\n    build.sh ./crystax-ndk python3.6\n  Python 3.7 Dev:\n    build.sh ./crystax-ndk python3.7 3.7 3.7\n  Python 3.6 Dev:\n    build.sh ./crystax-ndk python3.6 3.6 3.6'
 SHOW_USAGE=0
 
 realpath() {
@@ -15,33 +15,61 @@ realpath() {
   fi
 }
 
+usage() {
+  echo -e "${USAGE}"
+  exit 1
+}
+
 NDK_PATH=$(realpath $1)
 PATCH_DIR=$(realpath $2)
-C_SUFFIX=$3
-CPYTHON_BRANCH=$4
+
+INFO="\e[1mINFO:\e[0m"
+ERROR="\e[1m\e[31mERROR:\e[0m"
+
+CPYTHON_GIT='https://github.com/python/cpython.git'
+if [[ -z "$3" ]]; then
+  if [[ -e ${PATCH_DIR}/defaults.sh ]]; then
+    echo -e "${INFO} Using Defaults"
+    source ${PATCH_DIR}/defaults.sh
+  else
+    echo -e "${ERROR} Cannot Find ${PATCH_DIR}/defaults.sh"
+	usage
+  fi
+else
+  C_SUFFIX=$3
+  CPYTHON_BRANCH=$4
+  if [[ ! -z $5 ]]; then
+    CPYTHON_GIT=$5
+  fi
+fi
+echo -e "${INFO} Using CPython Git: ${CPYTHON_GIT}"
+echo -e "${INFO} Using CPython Branch: ${CPYTHON_BRANCH}"
 
 if [[ ! -e ${NDK_PATH}/build/tools/build-target-python.sh ]]; then
   SHOW_USAGE=1
-  echo 'ERROR: Invalid NDK Dir'
+  echo -e "${ERROR} Invalid NDK Dir"
+else
+  echo -e "${INFO} Using NDK: ${NDK_PATH}"
 fi
 if [[ ! -d ${PATCH_DIR} ]]; then
-  echo 'ERROR: Cannot Find Patch Dir'
+  echo -e "${ERROR} Cannot Find Patch Dir"
   SHOW_USAGE=1
 else
+  echo -e "${INFO} Using Patch Dir: ${PATCH_DIR}"
   if [[ ! -e ${PATCH_DIR}/Android.mk ]]; then
-    echo "ERROR: Cannot Find ${PATCH_DIR}/Android.mk"
+    echo -e "${ERROR} Cannot Find ${PATCH_DIR}/Android.mk"
     SHOW_USAGE=1
   fi
   if [[ ! -e ${PATCH_DIR}/android.mk.${C_SUFFIX} ]]; then
-    echo "ERROR: Cannot Find ${PATCH_DIR}/android.mk.${C_SUFFIX}"
+    echo -e "${ERROR} Cannot Find ${PATCH_DIR}/android.mk.${C_SUFFIX}"
     SHOW_USAGE=1
   fi
   if [[ ! -e ${PATCH_DIR}/config.c.${C_SUFFIX} ]]; then
-    echo "ERROR: Cannot Find ${PATCH_DIR}/config.c.${C_SUFFIX}"
+    echo -e "${ERROR} Cannot Find ${PATCH_DIR}/config.c.${C_SUFFIX}"
     SHOW_USAGE=1
   fi
   if [[ ! -e ${PATCH_DIR}/interpreter.c.${C_SUFFIX} ]]; then
-    echo "ERROR: Cannot Find ${PATCH_DIR}/interpreter.c.${C_SUFFIX}"
+    echo -e "${ERROR} Cannot Find ${PATCH_DIR}/interpreter.c.${C_SUFFIX}"
     SHOW_USAGE=1
   fi
 fi
@@ -51,15 +79,14 @@ if [[ -d cpython ]]; then
 fi
 
 if [[ ${SHOW_USAGE} == 1 ]]; then
-  echo -e "${USAGE}"
-  exit 1
+  usage
 fi
 
 cp ${PATCH_DIR}/*.${C_SUFFIX} ${NDK_PATH}/build/tools/build-target-python
 mkdir -p ${NDK_PATH}/sources/python/${C_SUFFIX}
 cp ${PATCH_DIR}/Android.mk ${NDK_PATH}/sources/python/${C_SUFFIX}/Android.mk
 
-git clone --depth=1 https://github.com/python/cpython.git -b ${CPYTHON_BRANCH}
+git clone --depth=1 ${CPYTHON_GIT} -b ${CPYTHON_BRANCH}
 
 if [[ ! -d cpython/Modules/_ctypes/libffi ]]; then
   git clone --depth=1 https://github.com/libffi/libffi.git -b v3.1 cpython/Modules/_ctypes/libffi

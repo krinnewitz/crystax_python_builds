@@ -15,13 +15,18 @@ directly into place.
 
 ```
 USAGE:
-build.sh <NDK Dir> <Patch Dir> <C File Suffix / Python Major.Minor> <CPython Branch>
+  build.sh <NDK Dir> <Patch Dir> <C File Suffix / Python Major.Minor> <CPython Branch> [Custom CPython Git]
+  build.sh <NDK Dir> <Patch Dir>
 
 Example:
   Python 3.7:
-    build.sh ./crystax-ndk python3.7 3.7 v3.7.1
+    build.sh ./crystax-ndk python3.7
   Python 3.6:
-    build.sh ./crystax-ndk python3.6 3.6 v3.6.7
+    build.sh ./crystax-ndk python3.6
+  Python 3.7 Dev:
+    build.sh ./crystax-ndk python3.7 3.7 3.7
+  Python 3.6 Dev:
+    build.sh ./crystax-ndk python3.6 3.6 3.6
 ```
 
 This should build Python for the target architectures and copy it into place so that it can be used like any other.
