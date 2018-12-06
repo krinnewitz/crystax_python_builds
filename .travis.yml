@@ -8,6 +8,5 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   local-dir: crystax-ndk/sources/python
-  verbose: true
   on:
     branch: master
