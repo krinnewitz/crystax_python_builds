@@ -4,7 +4,7 @@ set -e
 
 ROOT=$(pwd)
 
-USAGE='USAGE:\n  build.sh <NDK Dir> <Patch Dir> <C File Suffix / Python Major.Minor> <CPython Branch> [Custom CPython Git]\n  build.sh <NDK Dir> <Patch Dir>\n\nExample:\n  Python 3.7:\n    build.sh ./crystax-ndk python3.7\n  Python 3.6:\n    build.sh ./crystax-ndk python3.6\n  Python 3.7 Dev:\n    build.sh ./crystax-ndk python3.7 3.7 3.7\n  Python 3.6 Dev:\n    build.sh ./crystax-ndk python3.6 3.6 3.6'
+USAGE='\e[1mUSAGE:\e[0m\n  build.sh <NDK Dir> <Patch Dir> <C File Suffix / Python Major.Minor> <CPython Branch> [Custom CPython Git]\n  build.sh <NDK Dir> <Patch Dir>\n\nExample:\n  Python 3.7:\n    build.sh ./crystax-ndk python3.7\n  Python 3.6:\n    build.sh ./crystax-ndk python3.6\n  Python 3.7 Dev:\n    build.sh ./crystax-ndk python3.7 3.7 3.7\n  Python 3.6 Dev:\n    build.sh ./crystax-ndk python3.6 3.6 3.6'
 SHOW_USAGE=0
 
 realpath() {
@@ -19,6 +19,10 @@ usage() {
   echo -e "${USAGE}"
   exit 1
 }
+
+if [[ -z $1 ]]; then
+  usage
+fi
 
 NDK_PATH=$(realpath $1)
 PATCH_DIR=$(realpath $2)
