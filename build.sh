@@ -115,7 +115,7 @@ if [[ -e ${PATCH_DIR}/python-script.patch ]]; then
   cd ${ROOT}
 fi
 
-GNUMAKE="$(pwd)/quiet-make" ${NDK_PATH}/build/tools/build-target-python.sh --ndk_dir=${NDK_PATH} --abis=armeabi,armeabi-v7a,armeabi-v7a-hard,arm64-v8a,x86,x86_64,mips,mips64 --verbose $(pwd)/cpython
+${NDK_PATH}/build/tools/build-target-python.sh --ndk_dir=${NDK_PATH} --abis=armeabi,armeabi-v7a,armeabi-v7a-hard,arm64-v8a,x86,x86_64,mips,mips64 --verbose $(pwd)/cpython | awk '/^\[|^##/' 
 
 rm -rf cpython
 
