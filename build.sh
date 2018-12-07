@@ -90,7 +90,7 @@ cp ${PATCH_DIR}/*.${C_SUFFIX} ${NDK_PATH}/build/tools/build-target-python
 mkdir -p ${NDK_PATH}/sources/python/${C_SUFFIX}
 cp ${PATCH_DIR}/Android.mk ${NDK_PATH}/sources/python/${C_SUFFIX}/Android.mk
 
-git clone --depth=1 ${CPYTHON_GIT} -b ${CPYTHON_BRANCH}
+git clone --depth=1 ${CPYTHON_GIT} -b ${CPYTHON_BRANCH} cpython
 
 if [[ ! -d cpython/Modules/_ctypes/libffi ]]; then
   git clone --depth=1 https://github.com/libffi/libffi.git -b v3.1 cpython/Modules/_ctypes/libffi
@@ -115,9 +115,7 @@ if [[ -e ${PATCH_DIR}/python-script.patch ]]; then
   cd ${ROOT}
 fi
 
-ls $(pwd)
-which $(pwd)/make
-GNUMAKE=$(pwd)/make ${NDK_PATH}/build/tools/build-target-python.sh --ndk_dir=${NDK_PATH} --abis=armeabi,armeabi-v7a,armeabi-v7a-hard,arm64-v8a,x86,x86_64,mips,mips64 --verbose $(pwd)/cpython
+PATH="$(pwd)/quiet-make:${PATH}" GNUMAKE=quiet-make ${NDK_PATH}/build/tools/build-target-python.sh --ndk_dir=${NDK_PATH} --abis=armeabi,armeabi-v7a,armeabi-v7a-hard,arm64-v8a,x86,x86_64,mips,mips64 --verbose $(pwd)/cpython
 
 rm -rf cpython
 
