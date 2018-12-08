@@ -3,6 +3,8 @@ install: .ci/install-crystax.sh
 script:
   - ./build.sh ./crystax-ndk python3.7
   - ./build.sh ./crystax-ndk python3.6
+  - ./build.sh ./crystax-ndk python3.5
+  - ./build.sh ./crystax-ndk python3.4
 deploy:
   provider: pages
   skip-cleanup: true

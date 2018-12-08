@@ -103,8 +103,8 @@ if [[ ! -d cpython/Modules/_ctypes/libffi ]]; then
 fi
 
 cd cpython
-if [[ -e ${PATCH_DIR}/patch_python.patch ]]; then
-  patch -p1 < ${PATCH_DIR}/patch_python.patch
+if [[ -e ${PATCH_DIR}/python.patch ]]; then
+  patch -p1 < ${PATCH_DIR}/python.patch
 fi
 ln -s $(pwd)/Lib/site-packages/README.txt $(pwd)/Lib/site-packages/README
 cd ${ROOT}
