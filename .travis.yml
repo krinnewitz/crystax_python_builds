@@ -5,6 +5,7 @@ script:
   - ./build.sh ./crystax-ndk python3.6
   - ./build.sh ./crystax-ndk python3.5
   - ./build.sh ./crystax-ndk python3.4
+  - ./build.sh ./crystax-ndk python2.7
 deploy:
   provider: pages
   skip-cleanup: true

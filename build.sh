@@ -87,6 +87,9 @@ if [[ ${SHOW_USAGE} == 1 ]]; then
 fi
 
 cp ${PATCH_DIR}/*.${C_SUFFIX} ${NDK_PATH}/build/tools/build-target-python
+if [[ -d ${NDK_PATH}/sources/python/${C_SUFFIX} ]]; then
+  rm -rf ${NDK_PATH}/sources/python/${C_SUFFIX}
+fi
 mkdir -p ${NDK_PATH}/sources/python/${C_SUFFIX}
 cp ${PATCH_DIR}/Android.mk ${NDK_PATH}/sources/python/${C_SUFFIX}/Android.mk
 
