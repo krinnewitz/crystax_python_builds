@@ -109,7 +109,9 @@ cd cpython
 if [[ -e ${PATCH_DIR}/python.patch ]]; then
   patch -p1 < ${PATCH_DIR}/python.patch
 fi
-ln -s $(pwd)/Lib/site-packages/README.txt $(pwd)/Lib/site-packages/README
+if [[ ! -e Lib/site-packages/README ]]; then
+  ln -s $(pwd)/Lib/site-packages/README.txt $(pwd)/Lib/site-packages/README
+fi
 cd ${ROOT}
 
 if [[ -e ${PATCH_DIR}/python-script.patch ]]; then
