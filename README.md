@@ -1,4 +1,4 @@
-## CrystaX Python builds [![Build Status](https://travis-ci.com/TheBrokenRail/crystax_python_builds.svg?branch=master)](https://travis-ci.com/TheBrokenRail/crystax_python_builds)
+## CrystaX Python builds [![CircleCI](https://circleci.com/gh/TheBrokenRail/crystax_python_builds/tree/master.svg?style=svg)](https://circleci.com/gh/TheBrokenRail/crystax_python_builds/tree/master)
 
 This repository hosts the files needed for CrystaX to build versions
 of Python that aren't yet built in.
