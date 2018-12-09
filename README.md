@@ -1,13 +1,17 @@
 ## CrystaX Python builds [![CircleCI](https://circleci.com/gh/TheBrokenRail/crystax_python_builds/tree/master.svg?style=svg)](https://circleci.com/gh/TheBrokenRail/crystax_python_builds/tree/master)
 
-This repository hosts the files needed for CrystaX to build versions
-of Python that aren't yet built in.
+This repository hosts the files needed for CrystaX to build newer versions of Python that aren't yet built in.
 
-For now, the extra files support only Python 3.6 and 3.7.
+### Supported Python Versions
+- Python 2.7
 
-The releases for this repository include prebuilt Python versions for
-some target architectures, which can simply be extracted and copied
-directly into place.
+- Python 3.4
+
+- Python 3.5
+
+- Python 3.6
+
+- Python 3.7
 
 ## Instructions
 
