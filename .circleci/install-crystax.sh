@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 if [[ -d crystax-ndk ]]; then
     rm -rf crystax-ndk
