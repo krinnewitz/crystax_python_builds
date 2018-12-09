@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Install CrystaX NDK
-          command: ./.circleci/install-crystax.sh
+          command: .circleci/install-crystax.sh
       - run:
           name: Build Python 3.7
           command: ./build.sh ./crystax-ndk python3.7
@@ -25,4 +25,4 @@ jobs:
           command: ./build.sh ./crystax-ndk python2.7
       - run:
           name: Deploy To Github Pages
-          command: ./.circleci/deploy.sh
+          command: .circleci/deploy.sh
