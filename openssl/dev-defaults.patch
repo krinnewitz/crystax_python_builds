@@ -1,0 +1,16 @@
+--- crystax-ndk/build/tools/dev-defaults.sh	2015-12-24 01:42:26.000000000 -0500
++++ crystax-ndk/build/tools/dev-defaults.sh	2018-12-29 11:29:05.890543274 -0500
+@@ -65,7 +65,11 @@
+ 
+ # Location of the OpenSSL libraries, relative to the NDK root directory
+ OPENSSL_SUBDIR=sources/openssl
+-OPENSSL_VERSIONS="1.0.1p"
++if [[ -z "${EXT_OPENSSL_VERSION}" ]]; then
++  echo 'ERROR: EXT_OPENSSL_VERSION is not set'
++  exit 1
++fi
++OPENSSL_VERSIONS="${EXT_OPENSSL_VERSION}"
+ DEFAULT_OPENSSL_VERSION=$(echo $OPENSSL_VERSIONS | tr ' ' '\n' | head -n 1)
+ 
+ # Location of the libpng libraries, relative to the NDK root directory
+

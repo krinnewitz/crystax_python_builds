@@ -110,9 +110,32 @@ if [[ -e ${PATCH_DIR}/python.patch ]]; then
   patch -p1 < ${PATCH_DIR}/python.patch
 fi
 if [[ ! -e Lib/site-packages/README ]]; then
-  ln -s $(pwd)/Lib/site-packages/README.txt $(pwd)/Lib/site-packages/README
+  ln -s $(pwd)/Lib/site-packages/README.txt Lib/site-packages/README
 fi
 cd ${ROOT}
+
+OLD_OPENSSL_VERSION=1.0.1p
+OPENSSL_VERSION=1.0.2q
+OPENSSL_GIT_TAG=OpenSSL_1_0_2q
+
+if [[ ! -e ${NDK_PATH}/sources/openssl/${OPENSSL_VERSION}/include/openssl/opensslconf.h ]]; then
+  echo -e "${INFO} Building OpenSSL ${OPENSSL_VERSION}"
+  git clone --depth 1 https://github.com/openssl/openssl.git -b ${OPENSSL_GIT_TAG} cpython/openssl
+
+  if [[ -d ${NDK_PATH}/sources/openssl/${OPENSSL_VERSION} ]]; then
+    rm -rf ${NDK_PATH}/sources/openssl/${OPENSSL_VERSION}
+  fi
+  mkdir ${NDK_PATH}/sources/openssl/${OPENSSL_VERSION}
+  cp ${NDK_PATH}/sources/openssl/${OLD_OPENSSL_VERSION}/Android.mk ${NDK_PATH}/sources/openssl/${OPENSSL_VERSION}
+
+  ${NDK_PATH}/build/tools/build-target-openssl.sh --ndk_dir=${NDK_PATH} --abis=armeabi,armeabi-v7a,armeabi-v7a-hard,arm64-v8a,x86,x86_64,mips,mips64 $(pwd)/cpython/openssl
+fi
+
+if [[ -e ${ROOT}/openssl/dev-defaults.patch ]]; then
+  cd ${NDK_PATH}
+  patch -p1 < ${ROOT}/openssl/dev-defaults.patch
+  cd ${ROOT}
+fi
 
 if [[ -e ${PATCH_DIR}/python-script.patch ]]; then
   cd ${NDK_PATH}
@@ -120,12 +143,18 @@ if [[ -e ${PATCH_DIR}/python-script.patch ]]; then
   cd ${ROOT}
 fi
 
-${NDK_PATH}/build/tools/build-target-python.sh --ndk_dir=${NDK_PATH} --abis=armeabi,armeabi-v7a,armeabi-v7a-hard,arm64-v8a,x86,x86_64,mips,mips64 --verbose $(pwd)/cpython
+EXT_OPENSSL_VERSION=${OPENSSL_VERSION} ${NDK_PATH}/build/tools/build-target-python.sh --ndk_dir=${NDK_PATH} --abis=armeabi,armeabi-v7a,armeabi-v7a-hard,arm64-v8a,x86,x86_64,mips,mips64 --verbose $(pwd)/cpython
 
 rm -rf cpython
 
 if [[ -e ${PATCH_DIR}/python-script.patch ]]; then
   cd ${NDK_PATH}
   patch -p1 -R < ${PATCH_DIR}/python-script.patch
+  cd ${ROOT}
+fi
+
+if [[ -e ${ROOT}/openssl/dev-defaults.patch ]]; then
+  cd ${NDK_PATH}
+  patch -p1 -R < ${ROOT}/openssl/dev-defaults.patch
   cd ${ROOT}
 fi

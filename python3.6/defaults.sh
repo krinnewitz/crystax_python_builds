@@ -3,4 +3,4 @@
 set -e
 
 C_SUFFIX='3.6'
-CPYTHON_BRANCH='v3.6.7'
+CPYTHON_BRANCH='v3.6.8'
