@@ -114,7 +114,6 @@ if [[ ! -e Lib/site-packages/README ]]; then
 fi
 cd ${ROOT}
 
-OLD_OPENSSL_VERSION=1.0.1p
 OPENSSL_VERSION=1.0.2q
 OPENSSL_GIT_TAG=OpenSSL_1_0_2q
 
@@ -126,7 +125,7 @@ if [[ ! -e ${NDK_PATH}/sources/openssl/${OPENSSL_VERSION}/include/openssl/openss
     rm -rf ${NDK_PATH}/sources/openssl/${OPENSSL_VERSION}
   fi
   mkdir ${NDK_PATH}/sources/openssl/${OPENSSL_VERSION}
-  cp ${NDK_PATH}/sources/openssl/${OLD_OPENSSL_VERSION}/Android.mk ${NDK_PATH}/sources/openssl/${OPENSSL_VERSION}
+  cp ${ROOT}/openssl/Android.mk ${NDK_PATH}/sources/openssl/${OPENSSL_VERSION}
 
   ${NDK_PATH}/build/tools/build-target-openssl.sh --ndk_dir=${NDK_PATH} --abis=armeabi,armeabi-v7a,armeabi-v7a-hard,arm64-v8a,x86,x86_64,mips,mips64 $(pwd)/cpython/openssl
 fi
